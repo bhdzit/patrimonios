@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hola_mundo/utils/utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
+import 'dart:async';
+import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 class LugarInfo extends StatefulWidget {
   final  value;
 
@@ -14,6 +16,7 @@ class LugarInfo extends StatefulWidget {
 
 class _LugarInfo extends State<LugarInfo> {
   late GoogleMapController mapController;
+  static const platform = MethodChannel('samples.flutter.dev/battery');
   final Map<String, Marker> _markers = {};
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -89,7 +92,7 @@ class _LugarInfo extends State<LugarInfo> {
                                   child: InkWell(
                                     splashColor: Colors.green, // splash color
                                     onTap: () {
-
+      _launchUrl('${widget.value.Recorrido}');
                                     }, // button pressed
                                     child: Column(
                                       mainAxisAlignment:
@@ -113,7 +116,9 @@ class _LugarInfo extends State<LugarInfo> {
                                       3, 218, 197, 1), // button color
                                   child: InkWell(
                                     splashColor: Colors.green, // splash color
-                                    onTap: () {}, // button pressed
+                                    onTap: () {
+                                      _getBatteryLevel();
+                                    }, // button pressed
                                     child: Column(
                                       mainAxisAlignment:
                                       MainAxisAlignment.center,
@@ -144,6 +149,30 @@ class _LugarInfo extends State<LugarInfo> {
                   TituloYSubTitulo("Precipitacion Pluvial",
                       widget.value.PrecipitacionPluvial),
                   TituloYSubTitulo("Sintesis", widget.value.Sintesis),
+                  Container(
+                    height: 50,
+                    margin: const EdgeInsets.only(top: 25),
+                    padding: const EdgeInsets.only(
+                        top: 4, left: 10, right: 10, bottom: 4),
+                    child: new RaisedButton(
+                      child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 5,
+                            ),
+                            child: const Text("DESCARGAR EXTENSO"),
+                          )),
+                      color: Colors.yellow,
+                      elevation: 10,
+                      shape: new RoundedRectangleBorder(
+                          borderRadius:
+                          new BorderRadius.circular(5.0)),
+                      onPressed:() {
+                        print('${widget.value.Extenso}');
+                        _launchUrl('${widget.value.Extenso}');
+                      },
+                    ),
+                  ),
                 ]),
                 decoration: const BoxDecoration(
                   color: Color.fromRGBO(242, 242, 242, 1),
@@ -167,4 +196,28 @@ class _LugarInfo extends State<LugarInfo> {
       ),
     );
   }
+
+  Future<void> _launchUrl(_extenso) async {
+    final Uri _url = Uri.parse(_extenso);
+    if (!await launchUrl(_url)) {
+      throw 'Could not launch $_url';
+    }
+  }
+
+  Future<void> _getBatteryLevel() async {
+    String batteryLevel;
+    print("inicio");
+    try {
+      final int result = await platform.invokeMethod('getBatteryLevel');
+      batteryLevel = 'Battery level at $result % .';
+    } on PlatformException catch (e) {
+      print("sdasdasdadasd");
+      batteryLevel = "Failed to get battery level: '${e.message}'.";
+    }
+
+    setState(() {
+      print(batteryLevel);
+    });
+  }
+
 }
