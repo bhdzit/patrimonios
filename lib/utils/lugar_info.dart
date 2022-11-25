@@ -36,6 +36,8 @@ class _LugarInfo extends State<LugarInfo> {
 
   @override
   Widget build(BuildContext context) {
+    print("Hola->-");
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Culturales"),
@@ -144,10 +146,14 @@ class _LugarInfo extends State<LugarInfo> {
                 margin: const EdgeInsets.all(10.0),
                 alignment: Alignment.topLeft,
                 child: Column(children: [
-                  TituloYSubTitulo("Clima", widget.value.Clima),
-                  TituloYSubTitulo("Temperatura", widget.value.Temperatura),
-                  TituloYSubTitulo("Precipitacion Pluvial",
-                      widget.value.PrecipitacionPluvial),
+                  if(widget.value?.Clima!=null)
+                    TituloYSubTitulo("Clima", widget.value?.Clima),
+                  if(widget.value?.Temperatura!=null)
+                    TituloYSubTitulo("Temperatura", widget.value.Temperatura),
+                  if(widget.value?.PrecipitacionPluvial!=null)
+                     TituloYSubTitulo("Precipitacion Pluvial",
+                        widget.value.PrecipitacionPluvial),
+
                   TituloYSubTitulo("Sintesis", widget.value.Sintesis),
                   Container(
                     height: 50,

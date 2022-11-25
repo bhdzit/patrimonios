@@ -35,22 +35,25 @@ class Spacecraft {
       Extenso,
       Recorrido,
       urlExtenso;
+  late final String? Clima, PrecipitacionPluvial, Temperatura;
 
-  Spacecraft({
-    required this.idlugaresI,
-    required this.Nombre,
-    required this.Categoria,
-    required this.Subcategoria,
-    required this.Ubicacion,
-    required this.Latitud,
-    required this.Longitud,
-    required this.Uso,
-    required this.Imagen,
-    required this.Sintesis,
-    required this.Extenso,
-    required this.Recorrido,
-    required this.urlExtenso,
-  });
+  Spacecraft(
+      {required this.idlugaresI,
+      required this.Nombre,
+      required this.Categoria,
+      required this.Subcategoria,
+      required this.Ubicacion,
+      required this.Latitud,
+      required this.Longitud,
+      required this.Uso,
+      required this.Imagen,
+      required this.Sintesis,
+      required this.Extenso,
+      required this.Recorrido,
+      required this.urlExtenso,
+      required this.Clima,
+      required this.Temperatura,
+      required this.PrecipitacionPluvial});
 
   factory Spacecraft.fromJson(Map<String, dynamic> jsonData) {
     return Spacecraft(
@@ -67,7 +70,10 @@ class Spacecraft {
         Sintesis: jsonData['Sintesis'],
         Extenso: jsonData['Extenso'],
         Recorrido: jsonData['Recorrido'],
-        urlExtenso: jsonData['urlExtenso']);
+        urlExtenso: jsonData['urlExtenso'],
+        Clima: null,
+        PrecipitacionPluvial: null,
+        Temperatura: null);
   }
 }
 
@@ -159,34 +165,28 @@ Future<List<Spacecraft>> downloadJSON() async {
 class Inmateriales extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: new ThemeData(
-        primarySwatch: Colors.deepOrange,
-      ),
-      home: new Scaffold(
-        body: new Center(
-          //FutureBuilder is a widget that builds itself based on the latest snapshot
-          // of interaction with a Future.
-          child: new FutureBuilder<List<Spacecraft>>(
-            future: downloadJSON(),
-            //we pass a BuildContext and an AsyncSnapshot object which is an
-            //Immutable representation of the most recent interaction with
-            //an asynchronous computation.
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                List<Spacecraft>? spacecrafts = snapshot.data;
-                return new CustomListView(spacecrafts!);
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              //return  a circular progress indicator.
-              return const CircularProgressIndicator();
-            },
-          ),
+    return (Container(
+      child: Center(
+        //FutureBuilder is a widget that builds itself based on the latest snapshot
+        // of interaction with a Future.
+        child: new FutureBuilder<List<Spacecraft>>(
+          future: downloadJSON(),
+          //we pass a BuildContext and an AsyncSnapshot object which is an
+          //Immutable representation of the most recent interaction with
+          //an asynchronous computation.
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              List<Spacecraft>? spacecrafts = snapshot.data;
+              return new CustomListView(spacecrafts!);
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+            //return  a circular progress indicator.
+            return const CircularProgressIndicator();
+          },
         ),
       ),
-    );
+    ));
   }
 }
 
