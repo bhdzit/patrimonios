@@ -131,6 +131,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     // ignore: prefer_const_constructors
     print("Holaasdasdasd");
+    print( MediaQuery.of(context).size.height );
     buildContext = context;
     return new WillPopScope(
       onWillPop: () async => false,
@@ -153,22 +154,25 @@ class _LoginPageState extends State<LoginPage> {
                   fit: BoxFit.cover,
                 )),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     // ignore: unnecessary_new
                     new Container(
                       padding: const EdgeInsets.only(top: 60.0),
                       // ignore: prefer_const_constructors
+                      alignment: Alignment.bottomCenter,
 
                       width: 290.0,
-                      height: 290.0,
                       // ignore: prefer_const_constructors
                       decoration: BoxDecoration(shape: BoxShape.circle),
                     ),
                     Container(
-                      height: MediaQuery.of(context).size.height / 2,
+
                       width: MediaQuery.of(context).size.width,
                       // ignore: prefer_const_constructors
-                      padding: EdgeInsets.only(top: 93),
+                      padding: EdgeInsets.only(top: 93,bottom: 30),
                       child: Column(
                         children: <Widget>[
                           Container(
@@ -283,10 +287,7 @@ class _LoginPageState extends State<LoginPage> {
                               },
                             ),
                           ),
-                          Text(
-                            mensaje,
-                            style: TextStyle(fontSize: 25.0, color: Colors.red),
-                          ),
+
                           Center(
                             child: Container(
                               child: new InkWell(
