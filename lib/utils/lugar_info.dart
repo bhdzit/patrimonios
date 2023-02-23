@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hola_mundo/utils/pdf_screen.dart';
 import 'package:hola_mundo/utils/utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
+
+
 class LugarInfo extends StatefulWidget {
   final  value;
 
@@ -15,6 +22,43 @@ class LugarInfo extends StatefulWidget {
 }
 
 class _LugarInfo extends State<LugarInfo> {
+  String remotePDFpath = "";
+  @override
+  void initState() {
+    createFileOfPdfUrl().then((f) {
+      setState(() {
+        remotePDFpath = f.path;
+
+      });
+    });
+  }
+  Future<File> createFileOfPdfUrl() async {
+    Completer<File> completer = Completer();
+    print("Start download file from internet!");
+    try {
+      // "https://berlin2017.droidcon.cod.newthinking.net/sites/global.droidcon.cod.newthinking.net/files/media/documents/Flutter%20-%2060FPS%20UI%20of%20the%20future%20%20-%20DroidconDE%2017.pdf";
+      // final url = "https://pdfkit.org/docs/guide.pdf";
+      final url = '${widget.value.Extenso}';
+      print(url);
+      final filename = url.substring(url.lastIndexOf("/") + 1);
+      var request = await HttpClient().getUrl(Uri.parse(url));
+      var response = await request.close();
+      var bytes = await consolidateHttpClientResponseBytes(response);
+      var dir = await getApplicationDocumentsDirectory();
+      print("Download files");
+      print("${dir.path}/$filename");
+      File file = File("${dir.path}/$filename");
+
+      await file.writeAsBytes(bytes, flush: true);
+      completer.complete(file);
+    } catch (e) {
+      throw Exception('Error parsing asset file!');
+    }
+
+    return completer.future;
+  }
+
+
   late GoogleMapController mapController;
   static const platform = MethodChannel('samples.flutter.dev/battery');
   final Map<String, Marker> _markers = {};
@@ -174,8 +218,8 @@ class _LugarInfo extends State<LugarInfo> {
                           borderRadius:
                           new BorderRadius.circular(5.0)),
                       onPressed:() {
-                        print('${widget.value.Extenso}');
-                        _launchUrl('${widget.value.Extenso}');
+                        print('${this.remotePDFpath}');
+                        _launchUrl('${this.remotePDFpath}');
                       },
                     ),
                   ),
@@ -204,10 +248,14 @@ class _LugarInfo extends State<LugarInfo> {
   }
 
   Future<void> _launchUrl(_extenso) async {
-    final Uri _url = Uri.parse(_extenso);
-    if (!await launchUrl(_url)) {
-      throw 'Could not launch $_url';
-    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PDFScreen(path: remotePDFpath),
+      ),
+    );
+    print("->extendo"+_extenso);
+
   }
 
   Future<void> _getBatteryLevel() async {
