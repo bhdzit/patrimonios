@@ -36,8 +36,6 @@ class _LugarInfo extends State<LugarInfo> {
     Completer<File> completer = Completer();
     print("Start download file from internet!");
     try {
-      // "https://berlin2017.droidcon.cod.newthinking.net/sites/global.droidcon.cod.newthinking.net/files/media/documents/Flutter%20-%2060FPS%20UI%20of%20the%20future%20%20-%20DroidconDE%2017.pdf";
-      // final url = "https://pdfkit.org/docs/guide.pdf";
       final url = '${widget.value.Extenso}';
       print(url);
       final filename = url.substring(url.lastIndexOf("/") + 1);
@@ -138,7 +136,7 @@ class _LugarInfo extends State<LugarInfo> {
                                   child: InkWell(
                                     splashColor: Colors.green, // splash color
                                     onTap: () {
-      _launchUrl('${widget.value.Recorrido}');
+                                          _launchUrl('${widget.value.Recorrido}');
                                     }, // button pressed
                                     child: Column(
                                       mainAxisAlignment:
@@ -219,7 +217,7 @@ class _LugarInfo extends State<LugarInfo> {
                           new BorderRadius.circular(5.0)),
                       onPressed:() {
                         print('${this.remotePDFpath}');
-                        _launchUrl('${this.remotePDFpath}');
+                        _launchPDF('${this.remotePDFpath}');
                       },
                     ),
                   ),
@@ -247,7 +245,7 @@ class _LugarInfo extends State<LugarInfo> {
     );
   }
 
-  Future<void> _launchUrl(_extenso) async {
+  Future<void> _launchPDF(_extenso) async {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -256,6 +254,13 @@ class _LugarInfo extends State<LugarInfo> {
     );
     print("->extendo"+_extenso);
 
+  }
+
+  Future<void> _launchUrl(_extenso) async {
+    final Uri _url = Uri.parse(_extenso);
+    if (!await launchUrl(_url)) {
+      throw 'Could not launch $_url';
+    }
   }
 
   Future<void> _getBatteryLevel() async {
