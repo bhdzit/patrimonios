@@ -11,9 +11,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 
-
 class LugarInfo extends StatefulWidget {
-  final  value;
+  final value;
 
   const LugarInfo({Key? key, required this.value}) : super(key: key);
 
@@ -28,10 +27,10 @@ class _LugarInfo extends State<LugarInfo> {
     createFileOfPdfUrl().then((f) {
       setState(() {
         remotePDFpath = f.path;
-
       });
     });
   }
+
   Future<File> createFileOfPdfUrl() async {
     Completer<File> completer = Completer();
     print("Start download file from internet!");
@@ -56,7 +55,6 @@ class _LugarInfo extends State<LugarInfo> {
     return completer.future;
   }
 
-
   late GoogleMapController mapController;
   static const platform = MethodChannel('samples.flutter.dev/battery');
   final Map<String, Marker> _markers = {};
@@ -78,8 +76,6 @@ class _LugarInfo extends State<LugarInfo> {
 
   @override
   Widget build(BuildContext context) {
-    print("Hola->-");
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Culturales"),
@@ -87,12 +83,11 @@ class _LugarInfo extends State<LugarInfo> {
       ),
       body: new Container(
         decoration:
-        const BoxDecoration(color: Color.fromRGBO(204, 204, 204, 1)),
+            const BoxDecoration(color: Color.fromRGBO(204, 204, 204, 1)),
         child: new SingleChildScrollView(
           child: Column(
             children: <Widget>[
               Container(
-
                 margin: const EdgeInsets.all(10.0),
                 alignment: Alignment.topLeft,
                 child: Column(
@@ -136,22 +131,21 @@ class _LugarInfo extends State<LugarInfo> {
                                   child: InkWell(
                                     splashColor: Colors.green, // splash color
                                     onTap: () {
-                                          _launchUrl('${widget.value.Recorrido}');
+                                      _launchUrl('${widget.value.Recorrido}');
                                     }, // button pressed
                                     child: Column(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: <Widget>[
-                                        Icon(Icons.threed_rotation), // icon// text
+                                        Icon(Icons
+                                            .threed_rotation), // icon// text
                                       ],
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                            Padding(
-                                padding:
-                                EdgeInsets.all(10.0)),
+                            Padding(padding: EdgeInsets.all(10.0)),
                             SizedBox.fromSize(
                               size: Size(60, 60), // button width and height
                               child: ClipOval(
@@ -165,7 +159,7 @@ class _LugarInfo extends State<LugarInfo> {
                                     }, // button pressed
                                     child: Column(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: <Widget>[
                                         Icon(Icons
                                             .calendar_today_outlined), // icon// text
@@ -184,18 +178,16 @@ class _LugarInfo extends State<LugarInfo> {
                 ),
               ),
               Container(
-
                 margin: const EdgeInsets.all(10.0),
                 alignment: Alignment.topLeft,
                 child: Column(children: [
-                  if(widget.value?.Clima!=null)
+                  if (widget.value?.Clima != null)
                     TituloYSubTitulo("Clima", widget.value?.Clima),
-                  if(widget.value?.Temperatura!=null)
+                  if (widget.value?.Temperatura != null)
                     TituloYSubTitulo("Temperatura", widget.value.Temperatura),
-                  if(widget.value?.PrecipitacionPluvial!=null)
-                     TituloYSubTitulo("Precipitacion Pluvial",
+                  if (widget.value?.PrecipitacionPluvial != null)
+                    TituloYSubTitulo("Precipitacion Pluvial",
                         widget.value.PrecipitacionPluvial),
-
                   TituloYSubTitulo("Sintesis", widget.value.Sintesis),
                   Container(
                     height: 50,
@@ -205,17 +197,16 @@ class _LugarInfo extends State<LugarInfo> {
                     child: new RaisedButton(
                       child: Center(
                           child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 5,
-                            ),
-                            child: const Text("DESCARGAR EXTENSO"),
-                          )),
+                        padding: const EdgeInsets.only(
+                          top: 5,
+                        ),
+                        child: const Text("DESCARGAR EXTENSO"),
+                      )),
                       color: Colors.yellow,
                       elevation: 10,
                       shape: new RoundedRectangleBorder(
-                          borderRadius:
-                          new BorderRadius.circular(5.0)),
-                      onPressed:() {
+                          borderRadius: new BorderRadius.circular(5.0)),
+                      onPressed: () {
                         print('${this.remotePDFpath}');
                         _launchPDF('${this.remotePDFpath}');
                       },
@@ -252,8 +243,7 @@ class _LugarInfo extends State<LugarInfo> {
         builder: (context) => PDFScreen(path: remotePDFpath),
       ),
     );
-    print("->extendo"+_extenso);
-
+    print("->extendo" + _extenso);
   }
 
   Future<void> _launchUrl(_extenso) async {
@@ -270,7 +260,6 @@ class _LugarInfo extends State<LugarInfo> {
       final int result = await platform.invokeMethod('getBatteryLevel');
       batteryLevel = 'Battery level at $result % .';
     } on PlatformException catch (e) {
-      print("sdasdasdadasd");
       batteryLevel = "Failed to get battery level: '${e.message}'.";
     }
 
@@ -278,5 +267,4 @@ class _LugarInfo extends State<LugarInfo> {
       print(batteryLevel);
     });
   }
-
 }
