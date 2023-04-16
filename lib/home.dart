@@ -32,7 +32,7 @@ class _HomeState extends State<Home> {
       case 3:
         return Inmateriales();
       case 4:
-        return ruta();
+        return Ruta();
       case 5:
         return agendar();
       case 6:

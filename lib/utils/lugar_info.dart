@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hola_mundo/utils/calendar_event.dart';
 import 'package:hola_mundo/utils/pdf_screen.dart';
 import 'package:hola_mundo/utils/utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -155,7 +156,14 @@ class _LugarInfo extends State<LugarInfo> {
                                   child: InkWell(
                                     splashColor: Colors.green, // splash color
                                     onTap: () {
-                                      _getBatteryLevel();
+                                      var route = new MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            new CalendarEvent(
+                                                value: widget.value),
+                                      );
+                                      //A Navigator is a widget that manages a set of child widgets with
+                                      //stack discipline.It allows us navigate pages.
+                                      Navigator.of(context).push(route);
                                     }, // button pressed
                                     child: Column(
                                       mainAxisAlignment:
@@ -251,20 +259,5 @@ class _LugarInfo extends State<LugarInfo> {
     if (!await launchUrl(_url)) {
       throw 'Could not launch $_url';
     }
-  }
-
-  Future<void> _getBatteryLevel() async {
-    String batteryLevel;
-    print("inicio");
-    try {
-      final int result = await platform.invokeMethod('getBatteryLevel');
-      batteryLevel = 'Battery level at $result % .';
-    } on PlatformException catch (e) {
-      batteryLevel = "Failed to get battery level: '${e.message}'.";
-    }
-
-    setState(() {
-      print(batteryLevel);
-    });
   }
 }
