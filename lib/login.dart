@@ -130,13 +130,11 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     // ignore: prefer_const_constructors
-    print("Holaasdasdasd");
-    print( MediaQuery.of(context).size.height );
     buildContext = context;
     return new WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           title: const Text("Centro de Información"),
           centerTitle: false,
@@ -169,10 +167,9 @@ class _LoginPageState extends State<LoginPage> {
                       decoration: BoxDecoration(shape: BoxShape.circle),
                     ),
                     Container(
-
                       width: MediaQuery.of(context).size.width,
                       // ignore: prefer_const_constructors
-                      padding: EdgeInsets.only(top: 93,bottom: 30),
+                      padding: EdgeInsets.only(top: 93, bottom: 30),
                       child: Column(
                         children: <Widget>[
                           Container(
