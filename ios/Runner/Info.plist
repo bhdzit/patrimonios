@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSCalendarsUsageDescription</key>
-	<string>INSERT_REASON_HERE</string>
+	<string>Create events</string>
 	<key>NSContactsUsageDescription</key>
-	<string>INSERT_REASON_HERE</string>
+	<string>Add people to event</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
