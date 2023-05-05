@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:hola_mundo/home.dart';
 import 'login.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:fluttertoast/fluttertoast.dart';
 
+import 'package:http_interceptor/http/http.dart';
+import 'package:hola_mundo/HttpInterceptor.dart';
+
+late BuildContext buildContext;
 void main() => runApp(registro());
+final http =
+    InterceptedHttp.build(interceptors: [HttpInterceptor(buildContext)]);
+String email = '';
 
 class registro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final appTitle = 'Registrarse';
+    const appTitle = 'Registrarse';
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: appTitle,
       home: Scaffold(
         appBar: AppBar(
-          title: Text(appTitle),
+          title: const Text(appTitle),
           backgroundColor: const Color(0xff00C853),
         ),
         body: MyCustomForm(),
@@ -119,14 +123,14 @@ class MyCustomFormState extends State<MyCustomForm> {
   @override
   Widget build(BuildContext context) {
     // Crea un widget Form usando el _formKey que creamos anteriormente
-    return new ListTile(
-      title: new Card(
+    return ListTile(
+      title: Card(
         elevation: 7.0,
         child: Container(
-          padding: EdgeInsets.all(20.0),
-          margin: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
+          margin: const EdgeInsets.all(20.0),
           decoration:
-              BoxDecoration(border: Border.all(color: Color(0xff00C853))),
+              BoxDecoration(border: Border.all(color: const Color(0xff00C853))),
           child: Form(
             key: _formKey,
             child: Column(
@@ -137,7 +141,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   height: 30,
                   padding: const EdgeInsets.only(
                       top: 4, left: 10, right: 10, bottom: 4),
-                  child: new Text('Nombre'),
+                  child: const Text('Nombre'),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width / 1.2,
@@ -159,7 +163,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   height: 30,
                   padding: const EdgeInsets.only(
                       top: 4, left: 10, right: 10, bottom: 4),
-                  child: new Text('Apellido Paterno'),
+                  child: const Text('Apellido Paterno'),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width / 1.2,
@@ -180,7 +184,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   height: 30,
                   padding: const EdgeInsets.only(
                       top: 4, left: 10, right: 10, bottom: 4),
-                  child: new Text('Apellido Materno'),
+                  child: const Text('Apellido Materno'),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width / 1.2,
@@ -201,7 +205,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   height: 30,
                   padding: const EdgeInsets.only(
                       top: 4, left: 10, right: 10, bottom: 4),
-                  child: new Text('Usuario'),
+                  child: const Text('Usuario'),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width / 1.2,
@@ -222,7 +226,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   height: 30,
                   padding: const EdgeInsets.only(
                       top: 4, left: 10, right: 10, bottom: 4),
-                  child: new Text('Correo'),
+                  child: const Text('Correo'),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width / 1.2,
@@ -243,7 +247,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   height: 30,
                   padding: const EdgeInsets.only(
                       top: 4, left: 10, right: 10, bottom: 4),
-                  child: new Text('Contraseña'),
+                  child: const Text('Contraseña'),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width / 1.2,
@@ -261,7 +265,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     decoration: InputDecoration(
                       suffixIcon: InkWell(
                           onTap: _togglePassView,
-                          child: Icon(Icons.visibility)),
+                          child: const Icon(Icons.visibility)),
                     ),
                   ),
                 ),
@@ -275,7 +279,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       padding: const EdgeInsets.only(
                           top: 4, left: 10, right: 10, bottom: 4),
                       child: RaisedButton(
-                        color: Color(0xff00C853),
+                        color: const Color(0xff00C853),
                         onPressed: () {
                           // devolverá true si el formulario es válido, o falso si
                           // el formulario no es válido.
@@ -284,7 +288,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                             userRegistration();
                           }
                         },
-                        child: Text('Registrarse '),
+                        child: const Text('Registrarse '),
                       ),
                     ),
                   ),
@@ -298,14 +302,14 @@ class MyCustomFormState extends State<MyCustomForm> {
                       padding: const EdgeInsets.only(
                           top: 4, left: 10, right: 10, bottom: 4),
                       child: RaisedButton(
-                        color: Color(0xff00C853),
+                        color: const Color(0xff00C853),
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => LoginApp()),
                           );
                         },
-                        child: Text('Volver '),
+                        child: const Text('Volver '),
                       ),
                     ),
                   ),

@@ -141,8 +141,8 @@ class _LoginPageState extends State<LoginPage> {
           backgroundColor: const Color(0xff00C853),
         ),
         body: Center(
-          child: Form(
-            child: Flexible(
+          child: Container(
+            child: Container(
               child: Container(
                 height: double.infinity,
                 width: double.infinity,
