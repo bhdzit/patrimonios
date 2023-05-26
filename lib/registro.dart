@@ -53,11 +53,6 @@ class MyCustomFormState extends State<MyCustomForm> {
   final passwordController = TextEditingController();
 
   Future userRegistration() async {
-    // Showing CircularProgressIndicator.
-    setState(() {
-      visible = true;
-    });
-
     // Getting value from Controller
     String nombreB = nameController.text;
     String apellidoPaternoB = apellidoPcontroller.text;
@@ -82,7 +77,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     var response = await http.post(Uri.parse(url), body: json.encode(data));
 
     // Getting Server response into variable.
-    var message = jsonDecode(response.body);
+    var message = response.body;
 
     // If Web call Success than Hide the CircularProgressIndicator.
     if (response.statusCode == 200) {
@@ -101,10 +96,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             FlatButton(
               child: new Text("OK"),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => registro()),
-                );
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -122,6 +114,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   @override
   Widget build(BuildContext context) {
+    buildContext = context;
     // Crea un widget Form usando el _formKey que creamos anteriormente
     return ListTile(
       title: Card(
@@ -304,7 +297,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       child: RaisedButton(
                         color: const Color(0xff00C853),
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(builder: (context) => LoginApp()),
                           );
